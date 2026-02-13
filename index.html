@@ -1,135 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Valentine's Day ❤️</title>
-  <style>
-    *{box-sizing:border-box}
-    body{margin:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#ff9aa2,#ffdde1,#fad0c4);min-height:100vh;overflow-x:hidden;color:#333}
-    .heart{position:fixed;bottom:-20px;font-size:20px;animation:floatUp 10s linear infinite;opacity:.6}
-    @keyframes floatUp{0%{transform:translateY(0);opacity:0}20%{opacity:.6}100%{transform:translateY(-110vh);opacity:0}}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Nikita ❤️</title>
 
-    #entry{position:fixed;inset:0;background:linear-gradient(135deg,#ff758c,#ff7eb3);display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;z-index:1000;text-align:center}
-    .enter-btn{padding:14px 26px;border:none;border-radius:30px;font-size:16px;background:#fff;color:#ff4d6d;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ff9aa2,#ffdde1,#fad0c4);
+  min-height:100vh;
+  overflow-x:hidden;
+  color:#333;
+}
 
-    header{text-align:center;padding:20px;background:rgba(255,255,255,.75);backdrop-filter:blur(12px);position:sticky;top:0;box-shadow:0 4px 20px rgba(0,0,0,.1);z-index:5}
-    h1{margin:0;color:#e63946}
+/* floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:floatUp 10s linear infinite;
+  opacity:.6;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  20%{opacity:.7}
+  100%{transform:translateY(-110vh);opacity:0}
+}
 
-    .tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:12px}
-    .tab-button{padding:10px 18px;border:none;border-radius:25px;background:#fff;cursor:pointer;font-weight:600;box-shadow:0 5px 12px rgba(0,0,0,.08)}
+/* entry screen */
+#entry{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:#fff;
+  z-index:1000;
+}
+.enter-btn{
+  padding:14px 26px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  background:#fff;
+  color:#ff4d6d;
+  font-weight:700;
+  cursor:pointer;
+}
 
-    .tab-content{display:none;padding:30px;max-width:1000px;margin:auto;animation:fadeIn .5s ease}
-    .active{display:block}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* layout */
+header{
+  text-align:center;
+  padding:20px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(12px);
+}
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:12px;
+}
+.tab-button{
+  padding:10px 18px;
+  border:none;
+  border-radius:25px;
+  background:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+.tab-content{display:none;padding:30px;max-width:1000px;margin:auto}
+.active{display:block}
+.card{
+  background:#fff;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
 
-    .card{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);padding:25px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.1);margin-bottom:20px}
+/* scratch */
+.scratch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.scratch{
+  position:relative;
+  height:120px;
+  background:#ffe4ec;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+.scratch canvas{position:absolute;inset:0}
+#scratchResult{display:none;text-align:center;font-size:20px;margin-top:20px;font-weight:700}
 
-    /* Scratch cards */
-    .scratch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-    .scratch{position:relative;height:120px;border-radius:15px;overflow:hidden;background:#ffe4ec;display:flex;align-items:center;justify-content:center;font-weight:700;text-align:center;padding:10px}
-    .scratch canvas{position:absolute;inset:0}
-    #scratchResult{display:none;text-align:center;font-size:20px;margin-top:20px;font-weight:700}
+/* wordle */
+.grid{display:grid;gap:8px;justify-content:center;margin:20px 0}
+.tile{
+  width:50px;height:50px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:20px;
+  background:#fff;
+}
+.correct{background:#6aaa64;color:#fff}
+.present{background:#c9b458;color:#fff}
+.absent{background:#787c7e;color:#fff}
+#wifeModeBox{display:none;margin-top:10px;font-weight:600}
 
-    /* Wordle */
-    .grid{display:grid;grid-template-columns:repeat(7,50px);gap:8px;justify-content:center;margin:20px 0}
-    .tile{width:50px;height:50px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.1)}
-    .correct{background:#6aaa64;color:#fff}.present{background:#c9b458;color:#fff}.absent{background:#787c7e;color:#fff}
-
-    /* Envelope */
-    .envelope{width:220px;height:140px;background:#ffccd5;margin:40px auto;border-radius:10px;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
-    .letter{display:none;width:260px;background:#fff;margin:20px auto;padding:20px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.15);text-align:left}
-    .yes-btn{margin-top:15px;padding:10px 18px;border:none;border-radius:20px;background:#ff4d6d;color:#fff;font-weight:700;cursor:pointer}
-  </style>
+/* envelope */
+.envelope-wrap{display:flex;flex-direction:column;align-items:center}
+.envelope{
+  position:relative;
+  width:300px;height:180px;
+  background:#ffe3ea;
+  border:3px solid #ffb6c1;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  cursor:pointer;
+}
+.bottom-left,.bottom-right{
+  position:absolute;bottom:0;width:0;height:0;
+  border-top:90px solid #ffd1db;
+}
+.bottom-left{left:0;border-right:150px solid transparent}
+.bottom-right{right:0;border-left:150px solid transparent}
+.flap{
+  position:absolute;top:0;left:0;width:0;height:0;
+  border-left:150px solid transparent;
+  border-right:150px solid transparent;
+  border-bottom:90px solid #ffb6c1;
+  transform-origin:top;
+  transition:.6s ease;
+}
+.seal{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:28px}
+.inner-letter{
+  position:absolute;bottom:0;width:100%;height:120px;
+  background:#ff6f91;color:white;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:.5s;
+}
+.letter{
+  display:none;width:300px;background:#fff;margin-top:20px;
+  padding:20px;border-radius:12px;
+}
+.yes-btn{
+  margin-top:15px;padding:10px 18px;border:none;border-radius:20px;
+  background:#ff4d6d;color:#fff;font-weight:700;cursor:pointer;
+}
+</style>
 </head>
 <body>
 
 <div id="entry">
-  <h1>To My Favorite Human ❤️</h1>
-  <p>Initializing Wife OS...</p>
-  <button class="enter-btn" onclick="enterSite()">Enter Love Zone</button>
+<h1>To My Favorite Human ❤️</h1>
+<p>Initializing Wife OS...</p>
+<button class="enter-btn" onclick="enterSite()">Enter Love Zone</button>
 </div>
 
 <header><h1>Wife Management System ❤️</h1></header>
 
 <div class="tabs">
-  <button class="tab-button" onclick="showTab('home')">Home</button>
-  <button class="tab-button" onclick="showTab('dashboard')">Dashboard</button>
-  <button class="tab-button" onclick="showTab('review')">Review</button>
-  <button class="tab-button" onclick="showTab('complaint')">Complaint</button>
-  <button class="tab-button" onclick="showTab('games')">Games</button>
-  <button class="tab-button" onclick="showTab('memories')">Memories</button>
-  <button class="tab-button" onclick="showTab('final')">❤️</button>
+<button class="tab-button" onclick="showTab('home')">Home</button>
+<button class="tab-button" onclick="showTab('dashboard')">Dashboard</button>
+<button class="tab-button" onclick="showTab('games')">Wordle</button>
+<button class="tab-button" onclick="showTab('final')">Letter</button>
 </div>
 
-<div id="home" class="tab-content active"><div class="card"><h2>Welcome ❤️</h2><p>Love level: Infinite</p></div></div>
+<div id="home" class="tab-content active">
+<div class="card">
+<h2>Welcome ❤️</h2>
+<p>Love level: Infinite</p>
+</div>
+</div>
 
 <div id="dashboard" class="tab-content">
-  <div class="card">
-    <h2>Scratch to Reveal 😄</h2>
-    <div class="scratch-grid" id="scratchGrid"></div>
-    <div id="scratchResult">All stats analyzed… I got the best wife ❤️</div>
-  </div>
+<div class="card">
+<h2>Scratch to Reveal 😄</h2>
+<div class="scratch-grid" id="scratchGrid"></div>
+<div id="scratchResult">All stats analyzed… I got the best wife ❤️</div>
 </div>
-
-<div id="review" class="tab-content"><div class="card"><h2>Performance Review</h2><p>Cuteness: ⭐⭐⭐⭐⭐</p></div></div>
-
-<div id="complaint" class="tab-content"><div class="card"><h2>Complaint Portal</h2><button onclick="alert('Complaint registered. Resolution time: Lifetime ❤️')">Submit</button></div></div>
+</div>
 
 <div id="games" class="tab-content">
-  <div class="card" style="text-align:center">
-    <h2>❤️ Love Wordle ❤️</h2>
-    <p id="roundInfo">Round 1 of 3</p>
-    <div id="grid" class="grid"></div>
-    <p>Type a 6-letter word and press Enter</p>
-  </div>
+<div class="card" style="text-align:center">
+<h2>❤️ Love Wordle ❤️</h2>
+<p id="roundInfo"></p>
+<div id="grid" class="grid"></div>
+<div id="wifeModeBox">
+<label><input type="checkbox" id="wifeMode"> Enable Wifey Mode 😌</label>
+</div>
+<p>Type letters and press Enter</p>
+</div>
 </div>
 
-<div id="memories" class="tab-content"><div class="card"><h2>Our Memories 📸</h2></div></div>
-
 <div id="final" class="tab-content">
-  <div class="card" style="text-align:center">
-    <div class="envelope" id="env">Click to open 💌</div>
-    <div class="letter" id="letter">
-      <p>Hey Nikita,</p>
-      <p>You mean the world to me. I live to make you happy and proud (not perfect yet 😛).</p>
-      <p>I love you alot and will never stop that. You are tied to me for now and heaven.</p>
-      <p>I know you are my valentine forever, but still I will ask it every time, again and again.</p>
-      <p><b>Will you be my valentine babe??</b></p>
-      <p>yours rish ❤️</p>
-      <button class="yes-btn" onclick="alert('❤️')">YES, ALWAYS</button>
-    </div>
-  </div>
+<div class="card envelope-wrap">
+<div class="envelope" id="env">
+<div class="flap" id="flap"></div>
+<div class="bottom-left"></div>
+<div class="bottom-right"></div>
+<div class="seal">💗</div>
+<div class="inner-letter" id="innerLetter">A letter for you ❤️</div>
+</div>
+
+<div class="letter" id="letter">
+<p>Hey Nikita,</p>
+<p>You mean the world to me. I live to make you happy and proud (not perfect yet 😛).</p>
+<p>I love you alot and will never stop that. You are tied to me for now and heaven.</p>
+<p>I know you are my valentine forever, but still I will ask it every time, again and again.</p>
+<p><b>Will you be my valentine babe??</b></p>
+<p>yours rish ❤️</p>
+<button class="yes-btn" onclick="alert('❤️')">YES, ALWAYS</button>
+</div>
+</div>
 </div>
 
 <script>
-// Fix: ensure global
-window.enterSite=function(){document.getElementById('entry').style.display='none'}
-window.showTab=function(id){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function enterSite(){document.getElementById('entry').style.display='none'}
+function showTab(id){
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
 
-// Hearts
-setInterval(()=>{const h=document.createElement('div');h.className='heart';h.innerText='❤️';h.style.left=Math.random()*100+'vw';h.style.fontSize=(Math.random()*20+10)+'px';document.body.appendChild(h);setTimeout(()=>h.remove(),10000)},500)
+/* floating hearts */
+setInterval(()=>{
+const h=document.createElement('div');
+h.className='heart';
+h.innerText='❤️';
+h.style.left=Math.random()*100+'vw';
+h.style.fontSize=(Math.random()*20+10)+'px';
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),10000);
+},500);
 
-// Scratch cards
-const stats=["Cuteness Index: Dangerous","Smile Impact: Fatal","Shopping Power: Unlimited","Husband Control: Full Admin","Food Stealing Skill: Expert","Forever Status: Confirmed"]
-const gridEl=document.getElementById('scratchGrid');let revealed=0
-stats.forEach(text=>{const div=document.createElement('div');div.className='scratch';div.innerText=text;const c=document.createElement('canvas');c.width=300;c.height=150;div.appendChild(c);const ctx=c.getContext('2d');ctx.fillStyle='#bbb';ctx.fillRect(0,0,c.width,c.height);let isDown=false;c.addEventListener('mousedown',()=>isDown=true);c.addEventListener('mouseup',()=>{isDown=false;checkReveal(c)});c.addEventListener('mousemove',e=>{if(!isDown)return;ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(e.offsetX,e.offsetY,15,0,Math.PI*2);ctx.fill()});gridEl.appendChild(div)})
-function checkReveal(canvas){const pixels=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;let clear=0;for(let i=3;i<pixels.length;i+=4){if(pixels[i]===0)clear++}if(clear>pixels.length/12){canvas.style.display='none';revealed++;if(revealed===6)document.getElementById('scratchResult').style.display='block'}}
+/* scratch cards */
+const stats=[
+"Cuteness Index: Dangerous",
+"Smile Impact: Fatal",
+"Shopping Power: Unlimited",
+"Husband Control: Full Admin",
+"Food Stealing Skill: Expert",
+"Forever Status: Confirmed"
+];
+const gridEl=document.getElementById('scratchGrid');
+let revealed=0;
+stats.forEach(text=>{
+const div=document.createElement('div');
+div.className='scratch';
+div.innerText=text;
+const c=document.createElement('canvas');
+c.width=300;c.height=120;
+div.appendChild(c);
+const ctx=c.getContext('2d');
+ctx.fillStyle='#bbb';
+ctx.fillRect(0,0,c.width,c.height);
+let down=false;
+c.onmousedown=()=>down=true;
+c.onmouseup=()=>{down=false;check(c)};
+c.onmousemove=e=>{
+if(!down)return;
+ctx.globalCompositeOperation='destination-out';
+ctx.beginPath();
+ctx.arc(e.offsetX,e.offsetY,20,0,Math.PI*2);
+ctx.fill();
+};
+gridEl.appendChild(div);
+});
+function check(c){
+const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+let clear=0;
+for(let i=3;i<d.length;i+=4)if(d[i]===0)clear++;
+if(clear>d.length/8){
+c.style.display='none';
+revealed++;
+if(revealed===6)document.getElementById('scratchResult').style.display='block';
+}
+}
 
-// Wordle
-const words=['NIKITA','PICKLE','FOREVER'];let round=0,row=0,guess='';const grid=document.getElementById('grid');function createGrid(){grid.innerHTML='';for(let i=0;i<42;i++){const d=document.createElement('div');d.className='tile';grid.appendChild(d)}}createGrid()
+/* wordle */
+const words=['NIKITA','PICKLE','FOREVER'];
+let round=0,row=0,guess='';
+const grid=document.getElementById('grid');
+const info=document.getElementById('roundInfo');
+const wifeBox=document.getElementById('wifeModeBox');
 
-document.addEventListener('keydown',e=>{if(!document.getElementById('games').classList.contains('active'))return;if(e.key==='Backspace'){guess=guess.slice(0,-1);render()}else if(e.key==='Enter'){submit()}else if(/^[a-zA-Z]$/.test(e.key)&&guess.length<7){guess+=e.key.toUpperCase();render()}})
-function render(){const t=[...grid.children];for(let i=0;i<7;i++)t[row*6+i].textContent=guess[i]||''}
-function submit(){if(guess.length!==7)return;const target=words[round];const tiles=[...grid.children];const freq={};for(const ch of target)freq[ch]=(freq[ch]||0)+1;const res=new Array(6).fill('');for(let i=0;i<7;i++){if(guess[i]===target[i]){res[i]='correct';freq[guess[i]]--}}
-for(let i=0;i<7;i++){if(res[i])continue;const l=guess[i];if(freq[l]>0){res[i]='present';freq[l]--}else res[i]='absent'}
-for(let i=0;i<7;i++)tiles[row*6+i].classList.add(res[i]);
-if(guess===target){setTimeout(nextRound,700);return}row++;guess='';if(row===6){alert('Try again ❤️');reset()}}
-function nextRound(){round++;if(round===3){alert('You unlocked a letter ❤️');showTab('final');return}document.getElementById('roundInfo').textContent='Round '+(round+1)+' of 3';reset()}
-function reset(){row=0;guess='';createGrid()}
+function buildGrid(){
+const len=words[round].length;
+grid.style.gridTemplateColumns=`repeat(${len},50px)`;
+grid.innerHTML='';
+for(let i=0;i<len*6;i++){
+const d=document.createElement('div');
+d.className='tile';
+grid.appendChild(d);
+}
+info.textContent=`Round ${round+1} of 3`;
+wifeBox.style.display='none';
+}
+buildGrid();
 
-// Envelope interactions
-let opened=false;document.getElementById('env').onclick=function(){if(!opened){this.innerText='Click to pull letter';opened=true}else{document.getElementById('letter').style.display='block';this.style.display='none'}}
+document.addEventListener('keydown',e=>{
+if(!document.getElementById('games').classList.contains('active'))return;
+const len=words[round].length;
+if(e.key==='Backspace'){guess=guess.slice(0,-1);render();}
+else if(e.key==='Enter'){submit();}
+else if(/^[a-zA-Z]$/.test(e.key)&&guess.length<len){
+guess+=e.key.toUpperCase();render();
+}
+});
+
+function render(){
+const len=words[round].length;
+const t=[...grid.children];
+for(let i=0;i<len;i++)t[row*len+i].textContent=guess[i]||'';
+}
+
+function submit(){
+const target=words[round];
+const len=target.length;
+if(guess.length!==len)return;
+
+/* second last attempt wrong -> show wifey mode */
+if(row===4 && guess!==target){
+wifeBox.style.display='block';
+}
+
+/* final attempt */
+if(row===5){
+const cb=document.getElementById('wifeMode');
+if(cb && cb.checked){
+guess=target;
+alert("My wife is always right ❤️");
+}
+}
+
+const t=[...grid.children];
+const freq={};
+for(const c of target)freq[c]=(freq[c]||0)+1;
+const res=new Array(len).fill('');
+for(let i=0;i<len;i++){
+if(guess[i]===target[i]){
+res[i]='correct';
+freq[guess[i]]--;
+}
+}
+for(let i=0;i<len;i++){
+if(res[i])continue;
+const l=guess[i];
+if(freq[l]>0){res[i]='present';freq[l]--}
+else res[i]='absent';
+}
+for(let i=0;i<len;i++)t[row*len+i].classList.add(res[i]);
+
+if(guess===target){setTimeout(next,600);return;}
+row++;guess='';
+if(row===6){alert('Try again ❤️');reset();}
+}
+
+function next(){
+round++;
+if(round===3){
+alert('You unlocked a letter ❤️');
+showTab('final');
+return;
+}
+reset();
+buildGrid();
+}
+
+function reset(){row=0;guess='';}
+
+/* envelope */
+let stage=0;
+const flap=document.getElementById('flap');
+const inner=document.getElementById('innerLetter');
+const letter=document.getElementById('letter');
+document.getElementById('env').onclick=function(){
+if(stage===0){
+flap.style.transform='rotateX(180deg)';
+inner.style.opacity=1;
+stage=1;
+}else if(stage===1){
+letter.style.display='block';
+stage=2;
+}
+};
 </script>
 </body>
 </html>
