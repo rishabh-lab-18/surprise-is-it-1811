@@ -16,7 +16,7 @@ body{
   color:#333;
 }
 
-/* floating hearts */
+/* hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -93,40 +93,80 @@ header{text-align:center;padding:20px;background:rgba(255,255,255,.75)}
 .absent{background:#787c7e;color:#fff}
 #wifeModeBox{display:none;margin-top:10px;font-weight:600}
 
-/* envelope */
-.envelope-wrap{display:flex;flex-direction:column;align-items:center}
+/* ENVELOPE HERO PASTEL */
+.envelope-wrap{display:flex;flex-direction:column;align-items:center;margin-top:20px}
+
 .envelope{
   position:relative;
-  width:300px;height:180px;
-  background:#ffe3ea;
-  border:3px solid #ffb6c1;
-  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  width:400px;
+  height:240px;
+  background:linear-gradient(145deg,#ffeef3,#ffd6e0);
+  box-shadow:0 18px 35px rgba(0,0,0,0.15);
   cursor:pointer;
+  border-radius:6px;
+  overflow:hidden;
 }
+
 .bottom-left,.bottom-right{
-  position:absolute;bottom:0;width:0;height:0;
-  border-top:90px solid #ffd1db;
+  position:absolute;
+  bottom:0;
+  width:0;height:0;
+  border-top:120px solid #ffdbe5;
 }
-.bottom-left{left:0;border-right:150px solid transparent}
-.bottom-right{right:0;border-left:150px solid transparent}
+.bottom-left{left:0;border-right:200px solid transparent}
+.bottom-right{right:0;border-left:200px solid transparent}
+
 .flap{
-  position:absolute;top:0;left:0;width:0;height:0;
-  border-left:150px solid transparent;
-  border-right:150px solid transparent;
-  border-bottom:90px solid #ffb6c1;
+  position:absolute;
+  top:0;left:0;
+  width:0;height:0;
+  border-left:200px solid transparent;
+  border-right:200px solid transparent;
+  border-bottom:120px solid #ffc2d1;
   transform-origin:top;
+  transition:.7s ease;
+  z-index:3;
+}
+
+.seal{
+  position:absolute;
+  top:90px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:32px;
+  z-index:4;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:translateX(-50%) scale(1)}
+  50%{transform:translateX(-50%) scale(1.08)}
+}
+
+.inner-letter{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:150px;
+  background:linear-gradient(#ff8fab,#ff6f91);
+  color:white;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  opacity:0;
+  transform:translateY(40px);
   transition:.6s ease;
 }
-.seal{position:absolute;top:60px;left:50%;transform:translateX(-50%);font-size:28px}
-.inner-letter{
-  position:absolute;bottom:0;width:100%;height:120px;
-  background:#ff6f91;color:white;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:.5s;
-}
+
 .letter{
-  display:none;width:300px;background:#fff;margin-top:20px;
-  padding:20px;border-radius:12px;
+  display:none;
+  width:400px;
+  background:#fff;
+  margin-top:20px;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 18px 35px rgba(0,0,0,.15);
 }
 .yes-btn{margin-top:15px;padding:10px 18px;border:none;border-radius:20px;background:#ff4d6d;color:#fff;font-weight:700;cursor:pointer}
 </style>
@@ -183,12 +223,17 @@ Next ❤️
 
 <div id="final" class="tab-content">
 <div class="card envelope-wrap">
+
+<div style="margin-bottom:12px;font-weight:600;color:#e63946">
+A letter for you 💌 (click to open)
+</div>
+
 <div class="envelope" id="env">
 <div class="flap" id="flap"></div>
 <div class="bottom-left"></div>
 <div class="bottom-right"></div>
 <div class="seal">💗</div>
-<div class="inner-letter" id="innerLetter">A letter for you ❤️</div>
+<div class="inner-letter" id="innerLetter">For Nikita ❤️</div>
 </div>
 
 <div class="letter" id="letter">
@@ -200,6 +245,7 @@ Next ❤️
 <p>yours rish ❤️</p>
 <button class="yes-btn" onclick="alert('❤️')">YES, ALWAYS</button>
 </div>
+
 </div>
 </div>
 
@@ -220,7 +266,7 @@ document.body.appendChild(h);
 setTimeout(()=>h.remove(),10000);
 },500);
 
-/* scratch cards */
+/* scratch */
 const stats=[
 "Cuteness Index: Dangerous",
 "Smile Impact: Fatal",
@@ -309,12 +355,12 @@ const target=words[round];
 const len=target.length;
 if(guess.length!==len)return;
 
-/* show wifey mode after wrong 5th guess */
+/* show wifey mode */
 if(row===4 && guess!==target){
 wifeBox.style.display='block';
 }
 
-/* final attempt autocorrect */
+/* last attempt autocorrect */
 if(row===5){
 const cb=document.getElementById('wifeMode');
 if(cb && cb.checked){
@@ -363,7 +409,6 @@ return;
 reset();
 buildGrid();
 }
-
 function reset(){row=0;guess='';}
 
 /* envelope */
@@ -371,13 +416,17 @@ let stage=0;
 const flap=document.getElementById('flap');
 const inner=document.getElementById('innerLetter');
 const letter=document.getElementById('letter');
+
 document.getElementById('env').onclick=function(){
 if(stage===0){
 flap.style.transform='rotateX(180deg)';
 inner.style.opacity=1;
+inner.style.transform='translateY(0)';
 stage=1;
-}else if(stage===1){
-letter.style.display='block';
+}
+else if(stage===1){
+inner.style.transform='translateY(-70px)';
+setTimeout(()=>{letter.style.display='block';},350);
 stage=2;
 }
 };
