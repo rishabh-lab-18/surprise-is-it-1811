@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Valentine's Day ❤️</title>
-
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,152 +14,40 @@
       overflow-x: hidden;
       color: #333;
     }
+    .heart { position: fixed; bottom: -20px; font-size: 20px; animation: floatUp 10s linear infinite; opacity: 0.6; }
+    @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 0.6; } 100% { transform: translateY(-110vh); opacity: 0; } }
 
-    /* Floating hearts */
-    .heart {
-      position: fixed;
-      bottom: -20px;
-      font-size: 20px;
-      animation: floatUp 10s linear infinite;
-      opacity: 0.6;
-    }
+    #entry { position: fixed; inset: 0; background: linear-gradient(135deg, #ff758c, #ff7eb3); display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; z-index: 1000; text-align: center; }
+    #entry h1 { font-size: 36px; margin-bottom: 10px; }
+    #entry p { margin-bottom: 20px; opacity: 0.9; }
+    .enter-btn { padding: 14px 26px; border: none; border-radius: 30px; font-size: 16px; background: white; color: #ff4d6d; font-weight: bold; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
 
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 0; }
-      20% { opacity: 0.6; }
-      100% { transform: translateY(-110vh); opacity: 0; }
-    }
-
-    /* Entry screen */
-    #entry {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: white;
-      z-index: 1000;
-      text-align: center;
-    }
-
-    #entry h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    #entry p {
-      margin-bottom: 20px;
-      opacity: 0.9;
-    }
-
-    .enter-btn {
-      padding: 14px 26px;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
-      background: white;
-      color: #ff4d6d;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    header {
-      text-align: center;
-      padding: 20px;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      z-index: 5;
-    }
-
+    header { text-align: center; padding: 20px; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); position: sticky; top: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 5; }
     h1 { margin: 0; color: #e63946; }
 
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px;
-    }
+    .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 12px; }
+    .tab-button { padding: 10px 18px; border: none; border-radius: 25px; background: white; cursor: pointer; font-weight: 600; box-shadow: 0 5px 12px rgba(0,0,0,0.08); transition: 0.2s; }
+    .tab-button:hover { transform: translateY(-2px); }
 
-    .tab-button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 25px;
-      background: white;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
-      transition: 0.2s;
-    }
-
-    .tab-button:hover {
-      transform: translateY(-2px);
-    }
-
-    .tab-content {
-      display: none;
-      padding: 30px;
-      max-width: 1000px;
-      margin: auto;
-      animation: fadeIn 0.5s ease;
-    }
-
+    .tab-content { display: none; padding: 30px; max-width: 1000px; margin: auto; animation: fadeIn 0.5s ease; }
     .active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .card { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 25px; border-radius: 18px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .stat-box { background: white; padding: 15px; border-radius: 12px; margin: 10px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+    .big-btn { padding: 12px 18px; border: none; border-radius: 10px; background: #ff4d6d; color: white; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
-    .card {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(10px);
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    .photo-grid img { width: 100%; border-radius: 14px; transition: 0.3s; }
+    .photo-grid img:hover { transform: scale(1.05) rotate(1deg); }
 
-    .stat-box {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      margin: 10px 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-    }
-
-    .big-btn {
-      padding: 12px 18px;
-      border: none;
-      border-radius: 10px;
-      background: #ff4d6d;
-      color: white;
-      cursor: pointer;
-      margin-top: 15px;
-      font-size: 16px;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .photo-grid img {
-      width: 100%;
-      border-radius: 14px;
-      transition: 0.3s;
-    }
-
-    .photo-grid img:hover {
-      transform: scale(1.05) rotate(1deg);
-    }
+    /* Wordle styles */
+    .wordle { text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(6, 50px); gap: 8px; justify-content: center; margin: 20px 0; }
+    .tile { width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
+    .correct { background: #6aaa64; color: white; }
+    .present { background: #c9b458; color: white; }
+    .absent { background: #787c7e; color: white; }
   </style>
 </head>
 <body>
@@ -190,7 +76,6 @@
   <div class="card">
     <h2>Welcome ❤️</h2>
     <p>Cuteness detected: MAX</p>
-    <p>Attitude level: Manageable 😄</p>
     <p>Love level: Infinite</p>
   </div>
 </div>
@@ -202,7 +87,6 @@
     <div class="stat-box">Times I was right: 5</div>
     <div class="stat-box">Times You were right: 5000+</div>
     <div class="stat-box">Food stolen: Unlimited</div>
-    <div class="stat-box">Love Level: 9999%</div>
   </div>
 </div>
 
@@ -211,9 +95,7 @@
     <h2>Performance Review</h2>
     <p>Cuteness: ⭐⭐⭐⭐⭐</p>
     <p>Shopping Power: Legendary</p>
-    <p>Anger Speed: Fast & Furious</p>
     <p>Admin Control: Full Access</p>
-    <p><b>Status: Promoted to Lifetime Wife ❤️</b></p>
   </div>
 </div>
 
@@ -231,10 +113,11 @@
 </div>
 
 <div id="games" class="tab-content">
-  <div class="card">
-    <h2>Do You Love Me?</h2>
-    <button class="big-btn" onclick="alert('I knew it ❤️')">YES</button>
-    <button class="big-btn" onmouseover="moveButton(this)">NO</button>
+  <div class="card wordle">
+    <h2>❤️ Love Wordle ❤️</h2>
+    <p id="roundInfo">Round 1 of 3</p>
+    <div id="grid" class="grid"></div>
+    <p>Type a 6-letter word and press Enter</p>
   </div>
 </div>
 
@@ -254,38 +137,53 @@
   <div class="card">
     <h2>Jokes Apart...</h2>
     <p>Life is better with you.</p>
-    <p>Thank you for being my partner, my best friend, and my home.</p>
     <p><b>Happy Valentine's Day ❤️</b></p>
   </div>
 </div>
 
 <script>
-  function enterSite() {
-    document.getElementById('entry').style.display = 'none';
+  function enterSite() { document.getElementById('entry').style.display = 'none'; }
+  function showTab(tabId) { document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active')); document.getElementById(tabId).classList.add('active'); }
+
+  const words = ['NIKITA','PICKLE','ALWAYS'];
+  let round = 0, currentRow = 0, currentGuess = '';
+  const grid = document.getElementById('grid');
+
+  function createGrid() {
+    grid.innerHTML='';
+    for(let i=0;i<36;i++){ const d=document.createElement('div'); d.className='tile'; grid.appendChild(d);} }
+  createGrid();
+
+  document.addEventListener('keydown', e=>{
+    if(!document.getElementById('games').classList.contains('active')) return;
+    if(e.key==='Backspace'){ currentGuess=currentGuess.slice(0,-1); render(); }
+    else if(e.key==='Enter'){ submitGuess(); }
+    else if(/^[a-zA-Z]$/.test(e.key) && currentGuess.length<6){ currentGuess+=e.key.toUpperCase(); render(); }
+  });
+
+  function render(){ const tiles=[...grid.children]; for(let i=0;i<6;i++){ tiles[currentRow*6+i].textContent=currentGuess[i]||''; } }
+
+  function submitGuess(){ if(currentGuess.length!==6) return;
+    const target=words[round]; const tiles=[...grid.children];
+    for(let i=0;i<6;i++){
+      const t=tiles[currentRow*6+i]; const l=currentGuess[i];
+      if(l===target[i]) t.classList.add('correct');
+      else if(target.includes(l)) t.classList.add('present');
+      else t.classList.add('absent');
+    }
+    if(currentGuess===target){ setTimeout(nextRound,800); return; }
+    currentRow++; currentGuess=''; if(currentRow===6){ alert('Try again ❤️'); resetRound(); }
   }
 
-  function showTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
+  function nextRound(){ round++;
+    if(round===3){ alert('You completed all levels ❤️ ALWAYS you.'); showTab('final'); return; }
+    document.getElementById('roundInfo').textContent='Round '+(round+1)+' of 3';
+    resetRound();
   }
 
-  function moveButton(btn) {
-    btn.style.position = 'absolute';
-    btn.style.top = Math.random() * 80 + '%';
-    btn.style.left = Math.random() * 80 + '%';
-  }
+  function resetRound(){ currentRow=0; currentGuess=''; createGrid(); }
 
-  // floating hearts generator
-  setInterval(() => {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerText = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 10000);
-  }, 500);
+  setInterval(()=>{ const h=document.createElement('div'); h.className='heart'; h.innerText='❤️'; h.style.left=Math.random()*100+'vw'; h.style.fontSize=(Math.random()*20+10)+'px'; document.body.appendChild(h); setTimeout(()=>h.remove(),10000); },500);
 </script>
 
 </body>
