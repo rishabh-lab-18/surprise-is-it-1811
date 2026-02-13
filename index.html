@@ -16,21 +16,20 @@ body{
   color:#333;
 }
 
-/* floating hearts */
+/* hearts */
 .heart{
   position:fixed;
   bottom:-20px;
   font-size:18px;
   animation:floatUp 10s linear infinite;
-  opacity:.6;
 }
 @keyframes floatUp{
   0%{transform:translateY(0);opacity:0}
-  20%{opacity:.7}
+  20%{opacity:.8}
   100%{transform:translateY(-110vh);opacity:0}
 }
 
-/* entry screen */
+/* entry */
 #entry{
   position:fixed;
   inset:0;
@@ -54,34 +53,12 @@ body{
 }
 
 /* layout */
-header{
-  text-align:center;
-  padding:20px;
-  background:rgba(255,255,255,.75);
-  backdrop-filter:blur(12px);
-}
-.tabs{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  padding:12px;
-}
-.tab-button{
-  padding:10px 18px;
-  border:none;
-  border-radius:25px;
-  background:#fff;
-  font-weight:600;
-  cursor:pointer;
-}
+header{text-align:center;padding:20px;background:rgba(255,255,255,.75)}
+.tabs{display:flex;justify-content:center;gap:10px;padding:12px}
+.tab-button{padding:10px 18px;border:none;border-radius:25px;background:#fff;font-weight:600;cursor:pointer}
 .tab-content{display:none;padding:30px;max-width:1000px;margin:auto}
 .active{display:block}
-.card{
-  background:#fff;
-  padding:25px;
-  border-radius:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,.1);
-}
+.card{background:#fff;padding:25px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.1)}
 
 /* scratch */
 .scratch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
@@ -109,6 +86,7 @@ header{
   font-weight:700;
   font-size:20px;
   background:#fff;
+  box-shadow:0 3px 8px rgba(0,0,0,.1);
 }
 .correct{background:#6aaa64;color:#fff}
 .present{background:#c9b458;color:#fff}
@@ -150,17 +128,13 @@ header{
   display:none;width:300px;background:#fff;margin-top:20px;
   padding:20px;border-radius:12px;
 }
-.yes-btn{
-  margin-top:15px;padding:10px 18px;border:none;border-radius:20px;
-  background:#ff4d6d;color:#fff;font-weight:700;cursor:pointer;
-}
+.yes-btn{margin-top:15px;padding:10px 18px;border:none;border-radius:20px;background:#ff4d6d;color:#fff;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
 
 <div id="entry">
 <h1>To My Favorite Human ❤️</h1>
-<p>Initializing Wife OS...</p>
 <button class="enter-btn" onclick="enterSite()">Enter Love Zone</button>
 </div>
 
@@ -174,10 +148,7 @@ header{
 </div>
 
 <div id="home" class="tab-content active">
-<div class="card">
-<h2>Welcome ❤️</h2>
-<p>Love level: Infinite</p>
-</div>
+<div class="card"><h2>Welcome ❤️</h2></div>
 </div>
 
 <div id="dashboard" class="tab-content">
@@ -193,9 +164,12 @@ header{
 <h2>❤️ Love Wordle ❤️</h2>
 <p id="roundInfo"></p>
 <div id="grid" class="grid"></div>
+
 <div id="wifeModeBox">
 <label><input type="checkbox" id="wifeMode"> Enable Wifey Mode 😌</label>
 </div>
+
+<div id="wifeMsg" style="margin-top:8px;font-weight:600;color:#ff4d6d;"></div>
 <p>Type letters and press Enter</p>
 </div>
 </div>
@@ -229,18 +203,17 @@ document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'
 document.getElementById(id).classList.add('active');
 }
 
-/* floating hearts */
+/* hearts */
 setInterval(()=>{
 const h=document.createElement('div');
 h.className='heart';
 h.innerText='❤️';
 h.style.left=Math.random()*100+'vw';
-h.style.fontSize=(Math.random()*20+10)+'px';
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),10000);
 },500);
 
-/* scratch cards */
+/* scratch */
 const stats=[
 "Cuteness Index: Dangerous",
 "Smile Impact: Fatal",
@@ -284,7 +257,7 @@ if(revealed===6)document.getElementById('scratchResult').style.display='block';
 }
 }
 
-/* wordle */
+/* WORDLE STABLE */
 const words=['NIKITA','PICKLE','FOREVER'];
 let round=0,row=0,guess='';
 const grid=document.getElementById('grid');
@@ -301,13 +274,16 @@ d.className='tile';
 grid.appendChild(d);
 }
 info.textContent=`Round ${round+1} of 3`;
+document.getElementById('wifeMsg').innerText="";
 wifeBox.style.display='none';
+document.getElementById('wifeMode').checked=false;
 }
 buildGrid();
 
 document.addEventListener('keydown',e=>{
 if(!document.getElementById('games').classList.contains('active'))return;
 const len=words[round].length;
+
 if(e.key==='Backspace'){guess=guess.slice(0,-1);render();}
 else if(e.key==='Enter'){submit();}
 else if(/^[a-zA-Z]$/.test(e.key)&&guess.length<len){
@@ -326,17 +302,18 @@ const target=words[round];
 const len=target.length;
 if(guess.length!==len)return;
 
-/* second last attempt wrong -> show wifey mode */
+/* show wifey mode after wrong 5th guess */
 if(row===4 && guess!==target){
 wifeBox.style.display='block';
 }
 
-/* final attempt */
+/* last attempt autocorrect */
 if(row===5){
 const cb=document.getElementById('wifeMode');
 if(cb && cb.checked){
 guess=target;
-alert("My wife is always right ❤️");
+render();
+document.getElementById('wifeMsg').innerText="My wife is always right ❤️";
 }
 }
 
@@ -344,6 +321,7 @@ const t=[...grid.children];
 const freq={};
 for(const c of target)freq[c]=(freq[c]||0)+1;
 const res=new Array(len).fill('');
+
 for(let i=0;i<len;i++){
 if(guess[i]===target[i]){
 res[i]='correct';
@@ -360,20 +338,18 @@ for(let i=0;i<len;i++)t[row*len+i].classList.add(res[i]);
 
 if(guess===target){setTimeout(next,600);return;}
 row++;guess='';
-if(row===6){alert('Try again ❤️');reset();}
+if(row===6){reset();}
 }
 
 function next(){
 round++;
 if(round===3){
-alert('You unlocked a letter ❤️');
 showTab('final');
 return;
 }
 reset();
 buildGrid();
 }
-
 function reset(){row=0;guess='';}
 
 /* envelope */
