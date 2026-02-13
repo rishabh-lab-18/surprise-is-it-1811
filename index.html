@@ -16,7 +16,7 @@ body{
   color:#333;
 }
 
-/* hearts */
+/* floating hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -170,6 +170,13 @@ header{text-align:center;padding:20px;background:rgba(255,255,255,.75)}
 </div>
 
 <div id="wifeMsg" style="margin-top:8px;font-weight:600;color:#ff4d6d;"></div>
+
+<div id="nextBox" style="display:none;margin-top:12px;">
+<button onclick="goNext()" style="padding:10px 18px;border:none;border-radius:20px;background:#ff4d6d;color:#fff;font-weight:700;cursor:pointer;">
+Next ❤️
+</button>
+</div>
+
 <p>Type letters and press Enter</p>
 </div>
 </div>
@@ -213,7 +220,7 @@ document.body.appendChild(h);
 setTimeout(()=>h.remove(),10000);
 },500);
 
-/* scratch */
+/* scratch cards */
 const stats=[
 "Cuteness Index: Dangerous",
 "Smile Impact: Fatal",
@@ -257,7 +264,7 @@ if(revealed===6)document.getElementById('scratchResult').style.display='block';
 }
 }
 
-/* WORDLE STABLE */
+/* WORDLE */
 const words=['NIKITA','PICKLE','FOREVER'];
 let round=0,row=0,guess='';
 const grid=document.getElementById('grid');
@@ -275,6 +282,7 @@ grid.appendChild(d);
 }
 info.textContent=`Round ${round+1} of 3`;
 document.getElementById('wifeMsg').innerText="";
+document.getElementById('nextBox').style.display='none';
 wifeBox.style.display='none';
 document.getElementById('wifeMode').checked=false;
 }
@@ -283,7 +291,6 @@ buildGrid();
 document.addEventListener('keydown',e=>{
 if(!document.getElementById('games').classList.contains('active'))return;
 const len=words[round].length;
-
 if(e.key==='Backspace'){guess=guess.slice(0,-1);render();}
 else if(e.key==='Enter'){submit();}
 else if(/^[a-zA-Z]$/.test(e.key)&&guess.length<len){
@@ -307,7 +314,7 @@ if(row===4 && guess!==target){
 wifeBox.style.display='block';
 }
 
-/* last attempt autocorrect */
+/* final attempt autocorrect */
 if(row===5){
 const cb=document.getElementById('wifeMode');
 if(cb && cb.checked){
@@ -336,10 +343,16 @@ else res[i]='absent';
 }
 for(let i=0;i<len;i++)t[row*len+i].classList.add(res[i]);
 
-if(guess===target){setTimeout(next,600);return;}
+if(guess===target){
+document.getElementById('nextBox').style.display='block';
+return;
+}
+
 row++;guess='';
 if(row===6){reset();}
 }
+
+function goNext(){next();}
 
 function next(){
 round++;
@@ -350,6 +363,7 @@ return;
 reset();
 buildGrid();
 }
+
 function reset(){row=0;guess='';}
 
 /* envelope */
