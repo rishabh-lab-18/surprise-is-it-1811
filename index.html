@@ -164,13 +164,40 @@
   function render(){ const tiles=[...grid.children]; for(let i=0;i<6;i++){ tiles[currentRow*6+i].textContent=currentGuess[i]||''; } }
 
   function submitGuess(){ if(currentGuess.length!==6) return;
-    const target=words[round]; const tiles=[...grid.children];
+    const target=words[round];
+    const tiles=[...grid.children];
+
+    // Build frequency map of target letters
+    const freq={};
+    for(const ch of target){ freq[ch]=(freq[ch]||0)+1; }
+
+    // First pass: correct positions (green)
+    const result=new Array(6).fill('');
     for(let i=0;i<6;i++){
-      const t=tiles[currentRow*6+i]; const l=currentGuess[i];
-      if(l===target[i]) t.classList.add('correct');
-      else if(target.includes(l)) t.classList.add('present');
-      else t.classList.add('absent');
+      if(currentGuess[i]===target[i]){
+        result[i]='correct';
+        freq[currentGuess[i]]--;
+      }
     }
+
+    // Second pass: present (yellow) or absent (grey)
+    for(let i=0;i<6;i++){
+      if(result[i]) continue;
+      const letter=currentGuess[i];
+      if(freq[letter]>0){
+        result[i]='present';
+        freq[letter]--;
+      } else {
+        result[i]='absent';
+      }
+    }
+
+    // Apply styles
+    for(let i=0;i<6;i++){
+      const t=tiles[currentRow*6+i];
+      t.classList.add(result[i]);
+    }
+
     if(currentGuess===target){ setTimeout(nextRound,800); return; }
     currentRow++; currentGuess=''; if(currentRow===6){ alert('Try again ❤️'); resetRound(); }
   }
