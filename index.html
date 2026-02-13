@@ -118,6 +118,12 @@
     <p id="roundInfo">Round 1 of 3</p>
     <div id="grid" class="grid"></div>
     <p>Type a 6-letter word and press Enter</p>
+    <div id="wifeModeBox" style="display:none; margin-top:10px;">
+      <label style="font-weight:600;">
+        <input type="checkbox" id="wifeMode"> Enable wife mode
+      </label>
+      <div style="font-size:12px; opacity:0.8;">(Last attempt safety feature 😄)</div>
+    </div>
   </div>
 </div>
 
@@ -161,9 +167,15 @@
     else if(/^[a-zA-Z]$/.test(e.key) && currentGuess.length<6){ currentGuess+=e.key.toUpperCase(); render(); }
   });
 
-  function render(){ const tiles=[...grid.children]; for(let i=0;i<6;i++){ tiles[currentRow*6+i].textContent=currentGuess[i]||''; } }
+  function render(){ const tiles=[...grid.children]; for(let i=0;i<6;i++){ tiles[currentRow*6+i].textContent=currentGuess[i]||''; }
+    const box=document.getElementById('wifeModeBox'); if(box){ box.style.display = (currentRow===5) ? 'block' : 'none'; }
+  } }
 
   function submitGuess(){ if(currentGuess.length!==6) return;
+    const target=words[round];
+    // Wife mode: on last attempt, auto-correct to the right answer
+    if(currentRow===5){ const cb=document.getElementById('wifeMode'); if(cb && cb.checked){ currentGuess=target; }}
+
     const target=words[round];
     const tiles=[...grid.children];
 
