@@ -4,84 +4,136 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Valentine's Day ❤️</title>
+
   <style>
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ffe6eb, #fff);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9aa2, #ffdde1, #fad0c4);
+      min-height: 100vh;
+      overflow-x: hidden;
       color: #333;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 10s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0; }
+      20% { opacity: 0.6; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    /* Entry screen */
+    #entry {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    #entry h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    #entry p {
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .enter-btn {
+      padding: 14px 26px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      background: white;
+      color: #ff4d6d;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
     header {
       text-align: center;
       padding: 20px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
-      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      z-index: 5;
     }
 
-    h1 {
-      margin: 0;
-      color: #ff4d6d;
-    }
+    h1 { margin: 0; color: #e63946; }
 
     .tabs {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      padding: 15px;
-      background: #fff0f3;
+      padding: 12px;
     }
 
     .tab-button {
-      padding: 10px 16px;
+      padding: 10px 18px;
       border: none;
-      border-radius: 20px;
-      background: #ffccd5;
+      border-radius: 25px;
+      background: white;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+      transition: 0.2s;
     }
 
     .tab-button:hover {
-      background: #ffb3c1;
+      transform: translateY(-2px);
     }
 
     .tab-content {
       display: none;
       padding: 30px;
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
+      animation: fadeIn 0.5s ease;
     }
 
-    .active {
-      display: block;
+    .active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       margin-bottom: 20px;
     }
 
-    .stat {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .photo-grid img {
-      width: 100%;
+    .stat-box {
+      background: white;
+      padding: 15px;
       border-radius: 12px;
+      margin: 10px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     }
 
     .big-btn {
@@ -95,12 +147,30 @@
       font-size: 16px;
     }
 
-    .big-btn:hover {
-      background: #e63950;
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      border-radius: 14px;
+      transition: 0.3s;
+    }
+
+    .photo-grid img:hover {
+      transform: scale(1.05) rotate(1deg);
     }
   </style>
 </head>
 <body>
+
+<div id="entry">
+  <h1>To My Favorite Human ❤️</h1>
+  <p>Initializing Wife OS...</p>
+  <button class="enter-btn" onclick="enterSite()">Enter Love Zone</button>
+</div>
 
 <header>
   <h1>Wife Management System ❤️</h1>
@@ -109,19 +179,18 @@
 <div class="tabs">
   <button class="tab-button" onclick="showTab('home')">Home</button>
   <button class="tab-button" onclick="showTab('dashboard')">Dashboard</button>
-  <button class="tab-button" onclick="showTab('review')">Performance Review</button>
-  <button class="tab-button" onclick="showTab('complaint')">Complaint Portal</button>
+  <button class="tab-button" onclick="showTab('review')">Review</button>
+  <button class="tab-button" onclick="showTab('complaint')">Complaint</button>
   <button class="tab-button" onclick="showTab('games')">Games</button>
   <button class="tab-button" onclick="showTab('memories')">Memories</button>
-  <button class="tab-button" onclick="showTab('final')">Final Message</button>
+  <button class="tab-button" onclick="showTab('final')">❤️</button>
 </div>
 
 <div id="home" class="tab-content active">
   <div class="card">
     <h2>Welcome ❤️</h2>
-    <p>Scanning wife data...</p>
-    <p>Cuteness detected: MAX LEVEL</p>
-    <p>Attitude detected: Manageable 😄</p>
+    <p>Cuteness detected: MAX</p>
+    <p>Attitude level: Manageable 😄</p>
     <p>Love level: Infinite</p>
   </div>
 </div>
@@ -129,11 +198,11 @@
 <div id="dashboard" class="tab-content">
   <div class="card">
     <h2>Marriage Dashboard</h2>
-    <div class="stat">Days Married: <b>Update me</b></div>
-    <div class="stat">Times I was right: 5</div>
-    <div class="stat">Times You were right: 5000+</div>
-    <div class="stat">Food stolen from my plate: Unlimited</div>
-    <div class="stat">Love Level: 9999%</div>
+    <div class="stat-box">Days Married: Update me</div>
+    <div class="stat-box">Times I was right: 5</div>
+    <div class="stat-box">Times You were right: 5000+</div>
+    <div class="stat-box">Food stolen: Unlimited</div>
+    <div class="stat-box">Love Level: 9999%</div>
   </div>
 </div>
 
@@ -141,9 +210,9 @@
   <div class="card">
     <h2>Performance Review</h2>
     <p>Cuteness: ⭐⭐⭐⭐⭐</p>
-    <p>Shopping Skills: Legendary</p>
+    <p>Shopping Power: Legendary</p>
     <p>Anger Speed: Fast & Furious</p>
-    <p>Husband Control Level: Full Admin Access</p>
+    <p>Admin Control: Full Access</p>
     <p><b>Status: Promoted to Lifetime Wife ❤️</b></p>
   </div>
 </div>
@@ -151,12 +220,10 @@
 <div id="complaint" class="tab-content">
   <div class="card">
     <h2>Complaint Portal</h2>
-    <p>Select your complaint:</p>
     <select>
       <option>Husband not listening</option>
       <option>Husband lazy</option>
       <option>Husband eating snacks</option>
-      <option>Husband annoying</option>
     </select>
     <br>
     <button class="big-btn" onclick="alert('Complaint registered. Resolution time: Lifetime ❤️')">Submit</button>
@@ -166,7 +233,7 @@
 <div id="games" class="tab-content">
   <div class="card">
     <h2>Do You Love Me?</h2>
-    <button class="big-btn" onclick="alert('I knew it! ❤️')">YES</button>
+    <button class="big-btn" onclick="alert('I knew it ❤️')">YES</button>
     <button class="big-btn" onmouseover="moveButton(this)">NO</button>
   </div>
 </div>
@@ -175,25 +242,28 @@
   <div class="card">
     <h2>Our Memories 📸</h2>
     <div class="photo-grid">
-      <img src="https://via.placeholder.com/300" alt="memory">
-      <img src="https://via.placeholder.com/300" alt="memory">
-      <img src="https://via.placeholder.com/300" alt="memory">
-      <img src="https://via.placeholder.com/300" alt="memory">
+      <img src="https://via.placeholder.com/300">
+      <img src="https://via.placeholder.com/300">
+      <img src="https://via.placeholder.com/300">
+      <img src="https://via.placeholder.com/300">
     </div>
-    <p>Replace these with our photos ❤️</p>
   </div>
 </div>
 
 <div id="final" class="tab-content">
   <div class="card">
     <h2>Jokes Apart...</h2>
-    <p>Life is genuinely better with you.</p>
-    <p>Thank you for being my partner, my best friend, and my favorite person.</p>
+    <p>Life is better with you.</p>
+    <p>Thank you for being my partner, my best friend, and my home.</p>
     <p><b>Happy Valentine's Day ❤️</b></p>
   </div>
 </div>
 
 <script>
+  function enterSite() {
+    document.getElementById('entry').style.display = 'none';
+  }
+
   function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
@@ -204,6 +274,18 @@
     btn.style.top = Math.random() * 80 + '%';
     btn.style.left = Math.random() * 80 + '%';
   }
+
+  // floating hearts generator
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerText = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 10000);
+  }, 500);
 </script>
 
 </body>
