@@ -107,6 +107,10 @@ header{text-align:center;padding:20px;background:rgba(255,255,255,.75)}
 }
 
 #envImg:hover { transform:scale(1.02); }
+
+  #cameraBtn:hover {
+  transform:scale(1.1);
+}
 </style>
 </head>
 <body>
@@ -126,7 +130,32 @@ header{text-align:center;padding:20px;background:rgba(255,255,255,.75)}
 </div>
 
 <div id="home" class="tab-content active">
-<div class="card"><h2>Welcome ❤️</h2></div>
+  <div class="card" style="text-align:center">
+
+    <h2>Welcome ❤️</h2>
+
+    <div style="margin-top:20px;">
+      <div 
+        id="cameraBtn"
+        style="
+          font-size:60px;
+          cursor:pointer;
+          display:inline-block;
+          transition:transform .2s ease;
+        "
+      >
+        📷
+      </div>
+    </div>
+
+    <div id="scanText" style="
+      margin-top:20px;
+      font-weight:600;
+      color:#e63946;
+      min-height:24px;
+    "></div>
+
+  </div>
 </div>
 
 <div id="dashboard" class="tab-content">
@@ -351,6 +380,25 @@ if(round===3){showTab('final');return;}
 reset();buildGrid();
 }
 function reset(){row=0;guess='';}
+
+document.getElementById('cameraBtn').onclick = function(){
+
+  const text = document.getElementById('scanText');
+  const cam = document.getElementById('cameraBtn');
+
+  cam.style.animation = "pulseCam .6s infinite";
+
+  text.innerText = "Scanning... 📡";
+
+  setTimeout(()=>{
+    text.innerText = "AI Confidence: 99.999%";
+  }, 900);
+
+  setTimeout(()=>{
+    text.innerText = "Best Wife Detected ❤️";
+    cam.style.animation = "none";
+  }, 1800);
+};
 
 /* envelope */
 document.getElementById('envImg').onclick=function(){
